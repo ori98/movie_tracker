@@ -29,9 +29,5 @@ def add_question(movie: Movie, session: Session = Depends(get_session)):
 def get_movies(search_term: str, session: Session = Depends(get_session)):
    statement = select(Movie).where(Movie.name.like(f"%{search_term}%"))
    movies = session.exec(statement=statement).all()
-   if __debug__:
-    print("========================")
-    print(f"search term: ", search_term)
-    print(f"movies: {movies}")
 
    return movies
