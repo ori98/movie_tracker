@@ -2,9 +2,11 @@ from uuid import UUID, uuid4
 from datetime import datetime
 from pydantic import BaseModel
 
-#TODO Implement later
 class MovieResponse(BaseModel):
-    pass
+    name: str   
+    description: str | None
+    release_date: datetime
+
 
 class MovieRead(BaseModel):
     id: UUID

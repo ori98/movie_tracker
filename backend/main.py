@@ -1,5 +1,5 @@
 from fastapi import FastAPI, Depends
-from sqlmodel import Session
+from sqlmodel import Session, select
 from datetime import datetime
 
 from backend.database.db import get_session
@@ -22,5 +22,16 @@ def add_question(movie: Movie, session: Session = Depends(get_session)):
     session.commit()
     session.refresh(movie)
 
-    # Return the same as response
+    #TODO Return a can not add message with reason if not able to insert
     return movie
+
+@app.get("/get-movie", response_model=list[MovieResponse])
+def get_movies(search_term: str, session: Session = Depends(get_session)):
+   statement = select(Movie).where(Movie.name.like(f"%{search_term}%"))
+   movies = session.exec(statement=statement).all()
+   if __debug__:
+    print("========================")
+    print(f"search term: ", search_term)
+    print(f"movies: {movies}")
+
+   return movies
