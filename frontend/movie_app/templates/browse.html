@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <h1>Movie Browser</h1>
+        <hr>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form }}
+            <input type="submit" value="Search"/>
+        </form>
+        <hr>
+        {% if results %}
+            <h2>Current Results</h2>
+            <ul>
+            {% for result in results %}
+                <li>{{ result }}</li>
+            {% endfor %}
+            </ul>
+        {% endif %}
+        {% if recent_search_results %}
+            <h3>Previous Results</h3>
+            {% for search in recent_search_results %}
+                {{ search.term }}
+                <ul>
+                    {% for movie in search.results %}
+                        <li>{{ movie }}</li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+        {% endif %}
+    </body>
+</html>

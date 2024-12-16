@@ -3,9 +3,12 @@
     <body>
         <h1>Movie Matcher</h1>
         <hr>
+        {% if msg %}
+            {{ msg }}
+        {% endif %}
         <!-- <a href="insert">Enter Movie Info</a> -->
         <a href="{% url 'movie_insert' %}">Enter Movie Info</a>
-        <a href="#">Browse movies</a>
+        <a href="{% url 'movie_browse' %}">Browse movies</a>
         </form>
     </body>
 </html>
