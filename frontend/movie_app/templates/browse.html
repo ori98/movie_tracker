@@ -6,7 +6,7 @@
         <form method="POST">
             {% csrf_token %}
             {{ form }}
-            <input type="submit" value="Search"/>
+            <input type="submit" value="search"/>
         </form>
         <hr>
         {% if results %}
@@ -17,9 +17,15 @@
             {% endfor %}
             </ul>
         {% endif %}
-        {% if recent_search_results %}
+        {% if request.session.recent_search_results %}
             <h3>Previous Results</h3>
-            {% for search in recent_search_results %}
+            <hr>
+            <form method="POST">
+                {% csrf_token %}
+                <input type="submit" name="clear" value="clear">
+            </form>
+            <hr>
+            {% for search in request.session.recent_search_results %}
                 {{ search.term }}
                 <ul>
                     {% for movie in search.results %}

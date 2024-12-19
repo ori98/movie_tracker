@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
+from django.urls import reverse
 import requests
 
 from .forms.movie_form import MovieCreateForm
@@ -54,6 +55,12 @@ def browse(request):
 
     # Getting the search results
     if request.method == "POST":
+        # Checking if the `Clear` button was clicked
+        if 'clear' in request.POST:
+            # Flushing all the data
+            request.session.flush()
+            return HttpResponseRedirect(reverse("movie_browse"))
+
         # Getting the form data
         form = MovieSearch(request.POST)
         if form.is_valid():
@@ -78,8 +85,7 @@ def browse(request):
             # Setting the context
             context["results"] = results
 
-            # Adding the recent search results
-            context["recent_search_results"] = recent_search_results
+            # The recent search results will be part of the request.session dictionary
         else:
             context["results"] = f"No movies found with the name: {search_term}"
 
